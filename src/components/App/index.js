@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
 import Home from '../Home';
 
@@ -16,11 +16,11 @@ class App extends Component {
                   <Link to="/">Saponifi</Link>
                 </Navbar.Brand>
               </Navbar.Header>
-              <Nav>
-                <Navbar.Text>
+              <ul className="nav navbar-nav">
+                <p className="navbar-text">
                   <Link to="/">Home</Link>
-                </Navbar.Text>
-              </Nav>
+                </p>
+              </ul>
             </Navbar>
           </header>
 

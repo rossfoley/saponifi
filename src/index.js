@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import rootReducer from './reducers';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+
 import App from './components/App';
+import configureStore from './configureStore';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(rootReducer);
+const { store, persistor } = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById('root'));
 registerServiceWorker();
