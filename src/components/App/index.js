@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap';
 
 import Home from '../Home';
 
@@ -7,19 +8,25 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <div className="container">
           <header>
-            <h1>Saponifi</h1>
-            <nav>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-              </ul>
-            </nav>
+            <Navbar>
+              <Navbar.Header>
+                <Navbar.Brand>
+                  <Link to="/">Saponifi</Link>
+                </Navbar.Brand>
+              </Navbar.Header>
+              <Nav>
+                <Navbar.Text>
+                  <Link to="/">Home</Link>
+                </Navbar.Text>
+              </Nav>
+            </Navbar>
           </header>
 
-          <hr />
-
-          <Route exact path="/" component={Home} />
+          <main>
+            <Route exact path="/" component={Home} />
+          </main>
         </div>
       </BrowserRouter>
     );
