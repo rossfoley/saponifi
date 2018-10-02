@@ -10,7 +10,7 @@ class Recipe extends Component {
         <h1>Recipe for {recipe.name}</h1>
         <ul>
           {recipe.ingredients.map((ingredient) => (
-            <li>{ingredient.name} - {ingredient.amount}</li>
+            <li key={ingredient.name}>{ingredient.name} - {ingredient.amount}</li>
           ))}
         </ul>
       </div>

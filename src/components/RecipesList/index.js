@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { actions } from '../../reducers/recipes';
+
 class RecipesList extends Component {
+  onCreateRecipe = (e) => {
+    e.preventDefault();
+    this.props.createRecipe(this.recipeNameInput.value);
+    this.recipeNameInput.value = '';
+  }
+
   render() {
     const recipes = Object.values(this.props.recipes);
 
@@ -16,6 +25,8 @@ class RecipesList extends Component {
             </li>
           ))}
         </ul>
+        <input type="text" ref={(r) => this.recipeNameInput = r} />
+        <input type="submit" onClick={this.onCreateRecipe} />
       </div>
     );
   }
@@ -25,4 +36,8 @@ const mapStateToProps = (state, ownProps) => {
   return { recipes: state.recipes };
 }
 
-export default connect(mapStateToProps)(RecipesList);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesList);
