@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Navbar } from 'react-bootstrap';
+import { BrowserRouter, Route } from 'react-router-dom';
 
+import AppHeader from './header';
 import Home from '../Home';
+import Recipe from '../Recipe';
+import RecipesList from '../RecipesList';
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <div className="container">
-          <header>
-            <Navbar>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to="/">Saponifi</Link>
-                </Navbar.Brand>
-              </Navbar.Header>
-              <ul className="nav navbar-nav">
-                <p className="navbar-text">
-                  <Link to="/">Home</Link>
-                </p>
-              </ul>
-            </Navbar>
-          </header>
+          <AppHeader />
 
           <main>
             <Route exact path="/" component={Home} />
+            <Route exact path="/recipes" component={RecipesList} />
+            <Route exact path="/recipes/:recipe_id" component={Recipe} />
           </main>
         </div>
       </BrowserRouter>
