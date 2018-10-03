@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { round, set } from 'lodash';
 
 import FormInput from './formInput';
 import { actions } from '../../reducers/recipes';
 import { calculateLye } from '../../util/calculateLye';
 
 class Recipe extends Component {
-  onChangeNaohRatio = (e) => {
-    this.props.updateRecipe(this.props.recipe.id, {
-      setup: {
-        lyeRatio: {
-          naoh: parseFloat(e.target.value)
-        }
-      }
-    })
-  }
-
-  onChangeKohRatio = (e) => {
-    this.props.updateRecipe(this.props.recipe.id, {
-      setup: {
-        lyeRatio: {
-          koh: parseFloat(e.target.value)
-        }
-      }
-    })
+  onInputChange = (field) => (e) => {
+    const value = e.target.value.trim();
+    if (value !== '') {
+      const updatedRecipe = set({}, field, parseFloat(value));
+      this.props.updateRecipe(this.props.recipe.id, updatedRecipe);
+    }
   }
 
   render() {
@@ -46,23 +35,51 @@ class Recipe extends Component {
             type="number"
             value={recipe.setup.lyeRatio.naoh}
             label="Sodium Hydroxide Percent"
-            onChange={this.onChangeNaohRatio}
+            onChange={this.onInputChange('setup.lyeRatio.naoh')}
           />
           <FormInput
             inputId="kohRatio"
             type="number"
             value={recipe.setup.lyeRatio.koh}
             label="Potassium Hydroxide Percent"
-            onChange={this.onChangeKohRatio}
+            onChange={this.onInputChange('setup.lyeRatio.koh')}
+          />
+          <FormInput
+            inputId="naohPurity"
+            type="number"
+            value={recipe.setup.lyePurity.naoh}
+            label="Sodium Hydroxide Purity"
+            onChange={this.onInputChange('setup.lyePurity.naoh')}
+          />
+          <FormInput
+            inputId="kohPurity"
+            type="number"
+            value={recipe.setup.lyePurity.koh}
+            label="Potassium Hydroxide Purity"
+            onChange={this.onInputChange('setup.lyePurity.koh')}
+          />
+          <FormInput
+            inputId="superfatPercent"
+            type="number"
+            value={recipe.setup.superfatPercent}
+            label="Superfat Percent"
+            onChange={this.onInputChange('setup.superfatPercent')}
+          />
+          <FormInput
+            inputId="waterPercent"
+            type="number"
+            value={recipe.setup.waterPercent}
+            label="Water Percent"
+            onChange={this.onInputChange('setup.waterPercent')}
           />
         </form>
         <h2>Calculated Lye</h2>
         <dl>
           <dt>NaOH</dt>
-          <dd>{lye.naoh}</dd>
+          <dd>{round(lye.naoh, 2)}</dd>
 
           <dt>KOH</dt>
-          <dd>{lye.koh}</dd>
+          <dd>{round(lye.koh, 2)}</dd>
 
           <dt>Water</dt>
           <dd>{lye.water}</dd>
