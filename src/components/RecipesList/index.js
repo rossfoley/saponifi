@@ -25,8 +25,17 @@ class RecipesList extends Component {
             </li>
           ))}
         </ul>
-        <input type="text" ref={(r) => this.recipeNameInput = r} />
-        <input type="submit" onClick={this.onCreateRecipe} />
+        <div className="form-inline">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Recipe Name"
+            ref={(r) => this.recipeNameInput = r} />
+          <input
+            type="submit"
+            className="btn btn-default"
+            onClick={this.onCreateRecipe} />
+        </div>
       </div>
     );
   }

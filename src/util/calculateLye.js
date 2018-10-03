@@ -2,8 +2,12 @@ import { find, sum } from 'lodash';
 
 import oilProperties from './oilProperties';
 
-const defaultSetup = {
-  purity: {
+export const defaultSetup = {
+  lyeRatio: {
+    naoh: 1.0,
+    koh: 0.0
+  },
+  lyePurity: {
     naoh: 0.97,
     koh: 0.90,
   },
@@ -13,12 +17,12 @@ const defaultSetup = {
 
 const calculateSingleLye = (ingredients, lyeType, setup) => {
   const lyeAmounts = ingredients.map((ingredient) => {
-    const info = find(oilInfo, ['name', ingredient.name]);
+    const info = find(oilProperties, ['name', ingredient.name]);
     return ingredient.amount * info.sap[lyeType];
   });
-  
+
   const totalLye = sum(lyeAmounts);
-  const adjustedLye = (totalLye / setup.purity[lyeType]) * (1 - setup.superfatPercent);
+  const adjustedLye = (totalLye / setup.lyePurity[lyeType]) * (1 - setup.superfatPercent);
   return adjustedLye;
 };
 
@@ -26,10 +30,10 @@ const calculateWater = (ingredients, setup) => {
   return setup.waterPercent * sum(ingredients.map(({amount}) => amount));
 }
 
-const calculateLye = (ingredients, percents, setup = defaultSetup) => {
+export const calculateLye = (ingredients, setup = defaultSetup) => {
   return {
-    naoh: calculateSingleLye(ingredients, 'naoh', setup) * percents.naoh,
-    koh: calculateSingleLye(ingredients, 'koh', setup) * percents.koh,
+    naoh: calculateSingleLye(ingredients, 'naoh', setup) * setup.lyeRatio.naoh,
+    koh: calculateSingleLye(ingredients, 'koh', setup) * setup.lyeRatio.koh,
     water: calculateWater(ingredients, setup)
   }
 }

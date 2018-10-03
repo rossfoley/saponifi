@@ -1,4 +1,4 @@
-export default const oilInfo = [
+const oilProperties = [
   {
     "id":1,
     "name":"Abyssinian Oil",
@@ -2981,11 +2981,4 @@ export default const oilInfo = [
   }
 ];
 
-const setup = {
-  purity: {
-    naoh: 0.97,
-    koh: 0.90,
-  },
-  superfatPercent: 0.0,
-  waterPercent: 0.33
-};
+export default oilProperties;
