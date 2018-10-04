@@ -2,10 +2,12 @@
   z-index: 99;
 }
 
-.autocomplete-item {
-  background-color: #fff;
+.ingredient-input-group {
+  margin-bottom: 10px;
 }
 
-.autocomplete-item.highlight {
-  background-color: #eee;
+.ingredient-input-group .control-label {
+  height: 34px;
+  display: flex;
+  align-items: center;
 }

@@ -40,7 +40,7 @@ class IngredientInput extends Component {
     const { name, amount } = this.state;
 
     return (
-      <div className="form-inline">
+      <div className="form-inline ingredient-input-group">
         <div className="form-group">
           <label htmlFor={nameInputId} className="col-sm-3 control-label">Ingredient</label>
           <div className="col-sm-3">
@@ -60,8 +60,7 @@ class IngredientInput extends Component {
               renderItem={(item, highlighted) =>(
                 <div
                   key={item.id}
-                  className={`autocomplete-item ${highlighted ? 'highlighted' : ''}`}
-                  style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                  className={`list-group-item ${highlighted ? 'active' : ''}`}
                 >
                   {item.name}
                 </div>
