@@ -4,15 +4,15 @@ import oilProperties from './oilProperties';
 
 export const defaultSetup = {
   lyeRatio: {
-    naoh: 1.0,
-    koh: 0.0
+    naoh: 100,
+    koh: 0
   },
   lyePurity: {
-    naoh: 0.97,
-    koh: 0.90,
+    naoh: 97,
+    koh: 90,
   },
-  superfatPercent: 0.0,
-  waterPercent: 0.33
+  superfatPercent: 0,
+  waterPercent: 33
 };
 
 const calculateSingleLye = (ingredients, lyeType, setup) => {
@@ -27,18 +27,18 @@ const calculateSingleLye = (ingredients, lyeType, setup) => {
   });
 
   const totalLye = sum(lyeAmounts);
-  const adjustedLye = (totalLye / setup.lyePurity[lyeType]) * (1 - setup.superfatPercent);
+  const adjustedLye = (totalLye / (setup.lyePurity[lyeType] / 100)) * (1 - (setup.superfatPercent / 100));
   return adjustedLye;
 };
 
 const calculateWater = (ingredients, setup) => {
-  return setup.waterPercent * sum(ingredients.map(({amount}) => amount));
+  return (setup.waterPercent / 100) * sum(ingredients.map(({amount}) => amount));
 }
 
 export const calculateLye = (ingredients, setup = defaultSetup) => {
   return {
-    naoh: calculateSingleLye(ingredients, 'naoh', setup) * setup.lyeRatio.naoh,
-    koh: calculateSingleLye(ingredients, 'koh', setup) * setup.lyeRatio.koh,
+    naoh: calculateSingleLye(ingredients, 'naoh', setup) * (setup.lyeRatio.naoh / 100),
+    koh: calculateSingleLye(ingredients, 'koh', setup) * (setup.lyeRatio.koh / 100),
     water: calculateWater(ingredients, setup)
   }
 }

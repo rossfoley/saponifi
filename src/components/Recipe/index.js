@@ -35,7 +35,7 @@ class Recipe extends Component {
     return (
       <div className="row">
         <div className="col-sm-9">
-          <h1>{recipe.name}</h1>
+          <h1>{recipe.name} ({recipe.unit})</h1>
           {recipe.ingredients.map((ingredient, index) => (
             <IngredientInput
               ingredient={ingredient}
@@ -51,42 +51,42 @@ class Recipe extends Component {
               inputId="naohRatio"
               type="number"
               value={recipe.setup.lyeRatio.naoh}
-              label="Sodium Hydroxide Percent"
+              label="NaOH Percent"
               onChange={this.onInputChange('setup.lyeRatio.naoh')}
             />
             <FormInput
               inputId="kohRatio"
               type="number"
               value={recipe.setup.lyeRatio.koh}
-              label="Potassium Hydroxide Percent"
+              label="KOH Percent"
               onChange={this.onInputChange('setup.lyeRatio.koh')}
             />
             <FormInput
               inputId="naohPurity"
               type="number"
               value={recipe.setup.lyePurity.naoh}
-              label="Sodium Hydroxide Purity"
+              label="NaOH Purity"
               onChange={this.onInputChange('setup.lyePurity.naoh')}
             />
             <FormInput
               inputId="kohPurity"
               type="number"
               value={recipe.setup.lyePurity.koh}
-              label="Potassium Hydroxide Purity"
+              label="KOH Purity"
               onChange={this.onInputChange('setup.lyePurity.koh')}
             />
             <FormInput
               inputId="superfatPercent"
               type="number"
               value={recipe.setup.superfatPercent}
-              label="Superfat Percent"
+              label="Superfat (% of oils)"
               onChange={this.onInputChange('setup.superfatPercent')}
             />
             <FormInput
               inputId="waterPercent"
               type="number"
               value={recipe.setup.waterPercent}
-              label="Water Percent"
+              label="Water (% of oils)"
               onChange={this.onInputChange('setup.waterPercent')}
             />
           </form>
