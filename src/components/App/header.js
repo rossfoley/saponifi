@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar } from 'react-bootstrap';
 
 class AppHeader extends Component {
   render() {
     return (
       <header>
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">Saponifi</Link>
-            </Navbar.Brand>
-          </Navbar.Header>
-          <ul className="nav navbar-nav">
-            <p className="navbar-text">
-              <Link to="/">Home</Link>
-            </p>
-            <p className="navbar-text">
-              <Link to="/recipes">Recipes</Link>
-            </p>
-          </ul>
-        </Navbar>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <Link to="/" className="navbar-brand">Saponifi</Link>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarMain">
+            <div className="navbar-nav mr-auto">
+              <Link to="/" className="nav-item nav-link">Home</Link>
+              <Link to="/recipes" className="nav-item nav-link">Recipes</Link>
+            </div>
+          </div>
+        </nav>
       </header>
     );
   }
