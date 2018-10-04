@@ -16,25 +16,27 @@ class RecipesList extends Component {
     const recipes = Object.values(this.props.recipes);
 
     return (
-      <div>
-        <h1>Recipes</h1>
-        <ul>
-          {recipes.map((recipe) => (
-            <li key={recipe.id}>
-              <Link to={`/recipes/${recipe.id}`}>{recipe.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className="form-inline">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Recipe Name"
-            ref={(r) => this.recipeNameInput = r} />
-          <input
-            type="submit"
-            className="btn btn-default"
-            onClick={this.onCreateRecipe} />
+      <div className="card">
+        <h5 className="card-header">Recipes</h5>
+        <div className="card-body">
+          <ul>
+            {recipes.map((recipe) => (
+              <li key={recipe.id}>
+                <Link to={`/recipes/${recipe.id}`}>{recipe.name}</Link>
+              </li>
+            ))}
+          </ul>
+          <div className="form-inline">
+            <input
+              type="text"
+              className="form-control mr-2"
+              placeholder="Recipe Name"
+              ref={(r) => this.recipeNameInput = r} />
+            <input
+              type="submit"
+              className="btn btn-primary"
+              onClick={this.onCreateRecipe} />
+          </div>
         </div>
       </div>
     );

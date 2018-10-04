@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class AppHeader extends Component {
   render() {
     return (
-      <header>
+      <header className="mb-3">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link to="/" className="navbar-brand">Saponifi</Link>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">

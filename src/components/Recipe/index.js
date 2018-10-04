@@ -33,76 +33,88 @@ class Recipe extends Component {
     const lye = calculateLye(recipe.ingredients, recipe.setup);
 
     return (
-      <div className="row">
+      <div className="row mt-3">
         <div className="col-sm-9">
-          <h1>{recipe.name} ({recipe.unit})</h1>
-          {recipe.ingredients.map((ingredient, index) => (
-            <IngredientInput
-              ingredient={ingredient}
-              onChange={this.onIngredientChange}
-              key={ingredient.name}
-              index={index}
-            />
-          ))}
-          <button className="btn btn-default" onClick={this.addNewIngredient}>Add Ingredient</button>
-          <h2>Recipe Setup</h2>
-          <form className="form-horizontal">
-            <FormInput
-              inputId="naohRatio"
-              type="number"
-              value={recipe.setup.lyeRatio.naoh}
-              label="NaOH Percent"
-              onChange={this.onInputChange('setup.lyeRatio.naoh')}
-            />
-            <FormInput
-              inputId="kohRatio"
-              type="number"
-              value={recipe.setup.lyeRatio.koh}
-              label="KOH Percent"
-              onChange={this.onInputChange('setup.lyeRatio.koh')}
-            />
-            <FormInput
-              inputId="naohPurity"
-              type="number"
-              value={recipe.setup.lyePurity.naoh}
-              label="NaOH Purity"
-              onChange={this.onInputChange('setup.lyePurity.naoh')}
-            />
-            <FormInput
-              inputId="kohPurity"
-              type="number"
-              value={recipe.setup.lyePurity.koh}
-              label="KOH Purity"
-              onChange={this.onInputChange('setup.lyePurity.koh')}
-            />
-            <FormInput
-              inputId="superfatPercent"
-              type="number"
-              value={recipe.setup.superfatPercent}
-              label="Superfat (% of oils)"
-              onChange={this.onInputChange('setup.superfatPercent')}
-            />
-            <FormInput
-              inputId="waterPercent"
-              type="number"
-              value={recipe.setup.waterPercent}
-              label="Water (% of oils)"
-              onChange={this.onInputChange('setup.waterPercent')}
-            />
-          </form>
+          <div className="card mb-3">
+            <h5 className="card-header">{recipe.name} ({recipe.unit})</h5>
+            <div className="card-body">
+              {recipe.ingredients.map((ingredient, index) => (
+                <IngredientInput
+                  ingredient={ingredient}
+                  onChange={this.onIngredientChange}
+                  key={ingredient.name}
+                  index={index}
+                />
+              ))}
+              <button className="btn btn-primary" onClick={this.addNewIngredient}>Add Ingredient</button>
+            </div>
+          </div>
+          <div className="card">
+            <h5 className="card-header">Recipe Setup</h5>
+            <div className="card-body">
+              <form className="form-horizontal">
+                <FormInput
+                  inputId="naohRatio"
+                  type="number"
+                  value={recipe.setup.lyeRatio.naoh}
+                  label="NaOH Percent"
+                  onChange={this.onInputChange('setup.lyeRatio.naoh')}
+                />
+                <FormInput
+                  inputId="kohRatio"
+                  type="number"
+                  value={recipe.setup.lyeRatio.koh}
+                  label="KOH Percent"
+                  onChange={this.onInputChange('setup.lyeRatio.koh')}
+                />
+                <FormInput
+                  inputId="naohPurity"
+                  type="number"
+                  value={recipe.setup.lyePurity.naoh}
+                  label="NaOH Purity"
+                  onChange={this.onInputChange('setup.lyePurity.naoh')}
+                />
+                <FormInput
+                  inputId="kohPurity"
+                  type="number"
+                  value={recipe.setup.lyePurity.koh}
+                  label="KOH Purity"
+                  onChange={this.onInputChange('setup.lyePurity.koh')}
+                />
+                <FormInput
+                  inputId="superfatPercent"
+                  type="number"
+                  value={recipe.setup.superfatPercent}
+                  label="Superfat (% of oils)"
+                  onChange={this.onInputChange('setup.superfatPercent')}
+                />
+                <FormInput
+                  inputId="waterPercent"
+                  type="number"
+                  value={recipe.setup.waterPercent}
+                  label="Water (% of oils)"
+                  onChange={this.onInputChange('setup.waterPercent')}
+                />
+              </form>
+            </div>
+          </div>
         </div>
         <div className="col-sm-3">
-          <h2>Calculated Lye</h2>
-          <dl>
-            <dt>NaOH</dt>
-            <dd>{round(lye.naoh, 2)}</dd>
+          <div className="card mb-3">
+            <h5 className="card-header">Calculated Lye</h5>
+            <div className="card-body">
+              <dl>
+                <dt>NaOH</dt>
+                <dd>{round(lye.naoh, 2)}</dd>
 
-            <dt>KOH</dt>
-            <dd>{round(lye.koh, 2)}</dd>
+                <dt>KOH</dt>
+                <dd>{round(lye.koh, 2)}</dd>
 
-            <dt>Water</dt>
-            <dd>{lye.water}</dd>
-          </dl>
+                <dt>Water</dt>
+                <dd>{lye.water}</dd>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
     );
