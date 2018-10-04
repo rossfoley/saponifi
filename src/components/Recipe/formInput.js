@@ -22,8 +22,8 @@ class FormInput extends Component {
     const { value } = this.state;
 
     return (
-      <div className="form-group">
-        <label htmlFor={inputId} className="col-sm-3 control-label">{label}</label>
+      <div className="form-group row">
+        <label htmlFor={inputId} className="col-sm-3 col-form-label">{label}</label>
         <div className="col-sm-9">
           <input
             type={type}
