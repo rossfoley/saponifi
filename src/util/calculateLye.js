@@ -18,7 +18,12 @@ export const defaultSetup = {
 const calculateSingleLye = (ingredients, lyeType, setup) => {
   const lyeAmounts = ingredients.map((ingredient) => {
     const info = find(oilProperties, ['name', ingredient.name]);
-    return ingredient.amount * info.sap[lyeType];
+    if (info) {
+      return ingredient.amount * info.sap[lyeType];
+    } else {
+      console.log(`Can't find ingredient: ${ingredient.name}`);
+      return 0;
+    }
   });
 
   const totalLye = sum(lyeAmounts);

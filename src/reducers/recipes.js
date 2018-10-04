@@ -33,9 +33,27 @@ const updateRecipe = (id, updatedRecipe) => {
   };
 }
 
+const addIngredient = (id) => {
+  return {
+    type: 'recipes.addIngredient',
+    id
+  };
+};
+
+const updateIngredient = (id, index, updatedIngredient) => {
+  return {
+    type: 'recipes.updateIngredient',
+    id,
+    index,
+    updatedIngredient
+  };
+}
+
 export const actions = {
   createRecipe,
-  updateRecipe
+  updateRecipe,
+  addIngredient,
+  updateIngredient
 };
 
 export const recipesReducer = (state = initialState, action) => {
@@ -58,6 +76,24 @@ export const recipesReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.id]: merge({...state[action.id]}, action.updatedRecipe)
+      };
+
+    case 'recipes.addIngredient':
+      const recipe = {...state[action.id]};
+      recipe.ingredients.push({name: '', amount: 0.0});
+
+      return {
+        ...state,
+        [action.id]: recipe
+      };
+
+    case 'recipes.updateIngredient':
+      const updatedRecipe = {...state[action.id]};
+      updatedRecipe.ingredients[action.index] = action.updatedIngredient;
+
+      return {
+        ...state,
+        [action.id]: updatedRecipe
       };
 
     default:
