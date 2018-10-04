@@ -1,0 +1,11 @@
+.autocomplete-menu-wrapper > div {
+  z-index: 99;
+}
+
+.autocomplete-item {
+  background-color: #fff;
+}
+
+.autocomplete-item.highlight {
+  background-color: #eee;
+}

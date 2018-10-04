@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import AutoComplete from 'react-autocomplete';
+
+import oilProperties from '../../util/oilProperties';
+import './ingredientInput.css';
 
 class IngredientInput extends Component {
   constructor() {
@@ -40,14 +44,31 @@ class IngredientInput extends Component {
         <div className="form-group">
           <label htmlFor={nameInputId} className="col-sm-3 control-label">Ingredient</label>
           <div className="col-sm-3">
-            <input
-              type="text"
+            <AutoComplete
+              items={oilProperties}
+              inputProps={{
+                id: nameInputId,
+                className: 'form-control',
+                placeholder: 'Ingredient Name',
+                onBlur: this.onChange 
+              }}
+              wrapperProps={{
+                className: 'autocomplete-menu-wrapper'
+              }}
+              shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
+              getItemValue={item => item.name}
+              renderItem={(item, highlighted) =>(
+                <div
+                  key={item.id}
+                  className={`autocomplete-item ${highlighted ? 'highlighted' : ''}`}
+                  style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                >
+                  {item.name}
+                </div>
+              )}
               value={name}
-              id={nameInputId}
-              className="form-control"
-              placeholder="Ingredient Name"
               onChange={this.onNameChange}
-              onBlur={this.onChange}
+              onSelect={name => this.setState({ name })}
             />
           </div>
         </div>
