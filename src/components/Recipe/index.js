@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { round, set } from 'lodash';
 
-import FormInput from './formInput';
+import PercentInput from './percentInput';
 import IngredientInput from './ingredientInput';
 import { actions } from '../../reducers/recipes';
 import { calculateLye } from '../../util/calculateLye';
@@ -14,6 +14,20 @@ class Recipe extends Component {
     if (value !== '') {
       const updatedRecipe = set({}, field, parseFloat(value));
       this.props.updateRecipe(this.props.recipe.id, updatedRecipe);
+    }
+  }
+
+  onRatioChange = (type) => (e) => {
+    const value = e.target.value.trim();
+    if (value !== '') {
+      const lyeRatio = {};
+      lyeRatio[type] = value;
+      if (type === 'naoh') {
+        lyeRatio['koh'] = 100 - value;
+      } else {
+        lyeRatio['naoh'] = 100 - value;
+      }
+      this.props.updateRecipe(this.props.recipe.id, {setup: { lyeRatio }});
     }
   }
 
@@ -34,15 +48,16 @@ class Recipe extends Component {
 
     return (
       <div className="row mt-3">
-        <div className="col-sm-9">
+        <div className="col-sm-8">
           <div className="card mb-3">
-            <h5 className="card-header">{recipe.name} ({recipe.unit})</h5>
+            <h5 className="card-header">{recipe.name}</h5>
             <div className="card-body">
               {recipe.ingredients.map((ingredient, index) => (
                 <IngredientInput
                   ingredient={ingredient}
                   onChange={this.onIngredientChange}
                   key={ingredient.name}
+                  setup={recipe.setup}
                   index={index}
                 />
               ))}
@@ -53,44 +68,38 @@ class Recipe extends Component {
             <h5 className="card-header">Recipe Setup</h5>
             <div className="card-body">
               <form className="form-horizontal">
-                <FormInput
+                <PercentInput
                   inputId="naohRatio"
-                  type="number"
                   value={recipe.setup.lyeRatio.naoh}
                   label="NaOH Percent"
-                  onChange={this.onInputChange('setup.lyeRatio.naoh')}
+                  onChange={this.onRatioChange('naoh')}
                 />
-                <FormInput
+                <PercentInput
                   inputId="kohRatio"
-                  type="number"
                   value={recipe.setup.lyeRatio.koh}
                   label="KOH Percent"
-                  onChange={this.onInputChange('setup.lyeRatio.koh')}
+                  onChange={this.onRatioChange('koh')}
                 />
-                <FormInput
+                <PercentInput
                   inputId="naohPurity"
-                  type="number"
                   value={recipe.setup.lyePurity.naoh}
                   label="NaOH Purity"
                   onChange={this.onInputChange('setup.lyePurity.naoh')}
                 />
-                <FormInput
+                <PercentInput
                   inputId="kohPurity"
-                  type="number"
                   value={recipe.setup.lyePurity.koh}
                   label="KOH Purity"
                   onChange={this.onInputChange('setup.lyePurity.koh')}
                 />
-                <FormInput
+                <PercentInput
                   inputId="superfatPercent"
-                  type="number"
                   value={recipe.setup.superfatPercent}
                   label="Superfat (% of oils)"
                   onChange={this.onInputChange('setup.superfatPercent')}
                 />
-                <FormInput
+                <PercentInput
                   inputId="waterPercent"
-                  type="number"
                   value={recipe.setup.waterPercent}
                   label="Water (% of oils)"
                   onChange={this.onInputChange('setup.waterPercent')}
@@ -99,20 +108,26 @@ class Recipe extends Component {
             </div>
           </div>
         </div>
-        <div className="col-sm-3">
+        <div className="col-sm-4">
           <div className="card mb-3">
             <h5 className="card-header">Calculated Lye</h5>
             <div className="card-body">
-              <dl>
-                <dt>NaOH</dt>
-                <dd>{round(lye.naoh, 2)}</dd>
-
-                <dt>KOH</dt>
-                <dd>{round(lye.koh, 2)}</dd>
-
-                <dt>Water</dt>
-                <dd>{lye.water}</dd>
-              </dl>
+              <table className="table">
+                <tbody>
+                  <tr>
+                    <td>Sodium Hydroxide</td>
+                    <td>{round(lye.naoh, 2)}</td>
+                  </tr>
+                  <tr>
+                    <td>Potassium Hydroxide</td>
+                    <td>{round(lye.koh, 2)}</td>
+                  </tr>
+                  <tr>
+                    <td>Water</td>
+                    <td>{round(lye.water, 2)}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

@@ -33,6 +33,19 @@ class IngredientInput extends Component {
     this.props.onChange(index, name, amount);
   }
 
+  displayUnit = () => {
+    const { setup } = this.props;
+    if (setup.inputMode === 'percent') {
+      return '%';
+    } else {
+      if (setup.outputUnits === 'ounces') {
+        return 'oz';
+      } else {
+        return 'g';
+      }
+    }
+  }
+
   render() {
     const { index } = this.props;
     const nameInputId = `ingredientName${index}`
@@ -41,9 +54,7 @@ class IngredientInput extends Component {
 
     return (
       <div className="form-inline ingredient-input-group">
-        <div className="form-group">
-          <label htmlFor={nameInputId} className="col-sm-3 control-label">Ingredient</label>
-          <div className="col-sm-3">
+          <label htmlFor={nameInputId} className="col-sm-2 control-label">Ingredient</label>
             <AutoComplete
               items={oilProperties}
               inputProps={{
@@ -53,7 +64,7 @@ class IngredientInput extends Component {
                 onBlur: this.onChange 
               }}
               wrapperProps={{
-                className: 'autocomplete-menu-wrapper'
+                className: 'autocomplete-menu-wrapper col-sm-4'
               }}
               shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
               getItemValue={item => item.name}
@@ -69,11 +80,8 @@ class IngredientInput extends Component {
               onChange={this.onNameChange}
               onSelect={name => this.setState({ name })}
             />
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor={amountInputId} className="col-sm-3 control-label">Amount</label>
-          <div className="col-sm-3">
+          <label htmlFor={amountInputId} className="col-sm-2 control-label">Amount</label>
+          <div className="col-sm-4 input-group">
             <input
               type="number"
               value={amount}
@@ -83,8 +91,10 @@ class IngredientInput extends Component {
               onChange={this.onAmountChange}
               onBlur={this.onChange}
             />
+            <div className="input-group-append">
+              <span className="input-group-text">{this.displayUnit()}</span>
+            </div>
           </div>
-        </div>
       </div>
     );
   }

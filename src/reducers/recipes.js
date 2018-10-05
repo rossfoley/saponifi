@@ -7,7 +7,6 @@ const initialState = {
   '4n5pxq24kpiob12og9': {
     id: '4n5pxq24kpiob12og9',
     name: 'Test Recipe',
-    unit: 'ounces',
     ingredients: [
       {
         name: 'Coconut Oil, 76 deg',

@@ -2,6 +2,10 @@
   z-index: 99;
 }
 
+.form-inline .autocomplete-menu-wrapper .form-control {
+  width: 100%;
+}
+
 .ingredient-input-group {
   margin-bottom: 10px;
 }

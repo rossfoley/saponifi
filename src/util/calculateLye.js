@@ -11,6 +11,8 @@ export const defaultSetup = {
     naoh: 97,
     koh: 90,
   },
+  outputUnits: 'ounces', // 'ounces' or 'grams'
+  inputMode: 'weight', // 'weight' or 'percent'
   superfatPercent: 0,
   waterPercent: 33
 };
