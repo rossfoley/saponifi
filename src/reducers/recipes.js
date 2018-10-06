@@ -1,21 +1,9 @@
 import uniqid from 'uniqid';
-import { merge, sumBy } from 'lodash';
+import { merge, round, sumBy } from 'lodash';
 
 import { defaultSetup } from '../util/calculateLye';
 
-const initialState = {
-  '4n5pxq24kpiob12og9': {
-    id: '4n5pxq24kpiob12og9',
-    name: 'Test Recipe',
-    ingredients: [
-      {
-        name: 'Coconut Oil, 76 deg',
-        amount: '100'
-      }
-    ],
-    setup: defaultSetup
-  }
-};
+const initialState = {};
 
 const createRecipe = (name = 'Recipe Name') => {
   return {
@@ -107,6 +95,8 @@ const displayUnits = (recipe) => {
 }
 
 export const recipesReducer = (state = initialState, action) => {
+  const recipe = action.id ? {...state[action.id]} : {};
+
   switch (action.type) {
     case 'recipes.createRecipe':
       const id = uniqid();
@@ -129,41 +119,46 @@ export const recipesReducer = (state = initialState, action) => {
       };
 
     case 'recipes.updateRecipeMode':
-      const prevRecipe = {...state[action.id]};
-      prevRecipe.setup[action.modeField] = action.value;
-      prevRecipe.setup.displayUnits = displayUnits(prevRecipe);
+      recipe.setup[action.modeField] = action.value;
+      recipe.setup.displayUnits = displayUnits(recipe);
 
       if (action.modeField === 'inputMode') {
         if (action.value === 'percent') {
-          const totalWeight = sumBy(prevRecipe.ingredients, 'amount');
-          prevRecipe.ingredients = prevRecipe.ingredients.map((ingredient) => ({
+          const totalWeight = sumBy(recipe.ingredients, 'amount');
+          recipe.setup.totalWeight = totalWeight;
+
+          recipe.ingredients = recipe.ingredients.map((ingredient) => ({
             ...ingredient,
             amount: (ingredient.amount / totalWeight) * 100
           }));
-          prevRecipe.setup.totalWeight = totalWeight;
         } else if (action.value === 'weight') {
-          prevRecipe.ingredients = prevRecipe.ingredients.map((ingredient) => ({
+          recipe.ingredients = recipe.ingredients.map((ingredient) => ({
             ...ingredient,
-            amount: (ingredient.amount / 100) * prevRecipe.setup.totalWeight
+            amount: (ingredient.amount / 100) * recipe.setup.totalWeight
           }));
         }
       } else if (action.modeField === 'outputUnits') {
-        prevRecipe.setup.totalWeight = convertTo[action.value](prevRecipe.setup.totalWeight);
-        if (prevRecipe.setup.inputMode === 'weight') {
-          prevRecipe.ingredients = prevRecipe.ingredients.map((ingredient) => ({
+        recipe.setup.totalWeight = convertTo[action.value](recipe.setup.totalWeight);
+
+        if (recipe.setup.inputMode === 'weight') {
+          recipe.ingredients = recipe.ingredients.map((ingredient) => ({
             ...ingredient,
             amount: convertTo[action.value](ingredient.amount)
           }));
         }
       }
 
+      recipe.ingredients = recipe.ingredients.map((ingredient) => ({
+        ...ingredient,
+        amount: round(ingredient.amount, 2)
+      }));
+
       return {
         ...state,
-        [action.id]: prevRecipe
+        [action.id]: recipe
       };
 
     case 'recipes.addIngredient':
-      const recipe = {...state[action.id]};
       recipe.ingredients.push({name: '', amount: 0.0});
 
       return {
@@ -172,12 +167,11 @@ export const recipesReducer = (state = initialState, action) => {
       };
 
     case 'recipes.updateIngredient':
-      const updatedRecipe = {...state[action.id]};
-      updatedRecipe.ingredients[action.index] = action.updatedIngredient;
+      recipe.ingredients[action.index] = action.updatedIngredient;
 
       return {
         ...state,
-        [action.id]: updatedRecipe
+        [action.id]: recipe
       };
 
     default:
