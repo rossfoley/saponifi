@@ -32,6 +32,24 @@ const updateRecipe = (id, updatedRecipe) => {
   };
 }
 
+const updateRecipeLye = (id, type, newPercent) => {
+  const lyeRatio = {};
+
+  switch (type) {
+    case 'naoh':
+      lyeRatio['naoh'] = newPercent;
+      lyeRatio['koh'] = 100 - newPercent
+      break;
+
+    case 'koh':
+      lyeRatio['naoh'] = 100 - newPercent;
+      lyeRatio['koh'] = newPercent
+      break;
+  }
+
+  return updateRecipe(id, { setup: { lyeRatio } });
+}
+
 const addIngredient = (id) => {
   return {
     type: 'recipes.addIngredient',
@@ -51,6 +69,7 @@ const updateIngredient = (id, index, updatedIngredient) => {
 export const actions = {
   createRecipe,
   updateRecipe,
+  updateRecipeLye,
   addIngredient,
   updateIngredient
 };

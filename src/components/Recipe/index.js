@@ -9,6 +9,17 @@ import { actions } from '../../reducers/recipes';
 import { calculateLye } from '../../util/calculateLye';
 
 class Recipe extends Component {
+  addNewIngredient = (e) => {
+    this.props.addIngredient(this.props.recipe.id);
+  }
+
+  onIngredientChange = (index, name, amount) => {
+    if (name.trim() !== '') {
+      const updatedIngredient = { name: name.trim(), amount: parseFloat(amount) };
+      this.props.updateIngredient(this.props.recipe.id, index, updatedIngredient);
+    }
+  }
+
   onInputChange = (field) => (e) => {
     const value = e.target.value.trim();
     if (value !== '') {
@@ -20,26 +31,8 @@ class Recipe extends Component {
   onRatioChange = (type) => (e) => {
     const value = e.target.value.trim();
     if (value !== '') {
-      const lyeRatio = {};
-      lyeRatio[type] = value;
-      if (type === 'naoh') {
-        lyeRatio['koh'] = 100 - value;
-      } else {
-        lyeRatio['naoh'] = 100 - value;
-      }
-      this.props.updateRecipe(this.props.recipe.id, {setup: { lyeRatio }});
+      this.props.updateRecipeLye(this.props.recipe.id, type, value);
     }
-  }
-
-  onIngredientChange = (index, name, amount) => {
-    if (name.trim() !== '') {
-      const updatedIngredient = { name: name.trim(), amount: parseFloat(amount) };
-      this.props.updateIngredient(this.props.recipe.id, index, updatedIngredient);
-    }
-  }
-
-  addNewIngredient = (e) => {
-    this.props.addIngredient(this.props.recipe.id);
   }
 
   render() {
