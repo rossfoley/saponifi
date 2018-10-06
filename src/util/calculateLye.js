@@ -14,10 +14,7 @@ const calculateSingleLye = (ingredients, lyeType, setup) => {
   });
 
   const totalLye = sum(lyeAmounts);
-  const multiplier = setup.inputMode === 'percent' ?
-    (setup.totalWeight / 100) :
-    1;
-  const adjustedLye = (totalLye / (setup.lyePurity[lyeType] / 100)) * (1 - (setup.superfatPercent / 100)) * multiplier;
+  const adjustedLye = (totalLye / (setup.lyePurity[lyeType] / 100)) * (1 - (setup.superfatPercent / 100));
   return adjustedLye;
 };
 
@@ -26,9 +23,13 @@ const calculateWater = (ingredients, setup) => {
 }
 
 export const calculateLye = (ingredients, setup) => {
+  const multiplier = setup.inputMode === 'percent' ?
+    (setup.totalWeight / 100) :
+    1;
+
   return {
-    naoh: calculateSingleLye(ingredients, 'naoh', setup) * (setup.lyeRatio.naoh / 100),
-    koh: calculateSingleLye(ingredients, 'koh', setup) * (setup.lyeRatio.koh / 100),
-    water: calculateWater(ingredients, setup)
+    naoh: calculateSingleLye(ingredients, 'naoh', setup) * (setup.lyeRatio.naoh / 100) * multiplier,
+    koh: calculateSingleLye(ingredients, 'koh', setup) * (setup.lyeRatio.koh / 100) * multiplier,
+    water: calculateWater(ingredients, setup) * multiplier
   }
 }
