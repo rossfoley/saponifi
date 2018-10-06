@@ -88,7 +88,7 @@ class IngredientInput extends Component {
             onBlur={this.onChange}
           />
           <div className="input-group-append">
-            <span className="input-group-text">{displayUnits}</span>
+            <span className="input-group-text">{displayUnits.input}</span>
           </div>
         </div>
       </div>

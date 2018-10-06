@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { round, set, sumBy } from 'lodash';
 
 import PercentInput from './percentInput';
+import NumberInput from './numberInput';
 import IngredientInput from './ingredientInput';
 import { actions } from '../../reducers/recipes';
 import { calculateLye } from '../../util/calculateLye';
@@ -78,6 +79,14 @@ class Recipe extends Component {
                 value={recipe.setup.waterPercent}
                 label="Water (% of oils)"
                 onChange={this.onInputChange('setup.waterPercent')}
+              />
+              <NumberInput
+                inputId="totalWeight"
+                value={totalWeight}
+                disabled={recipe.setup.inputMode === 'weight'}
+                label="Total Weight"
+                units={recipe.setup.displayUnits.output}
+                onChange={this.onInputChange('setup.totalWeight')}
               />
               <div className="form-group row">
                 <div className="col-sm-3">Input Mode</div>
@@ -177,15 +186,15 @@ class Recipe extends Component {
                 <tbody>
                   <tr>
                     <td>Sodium Hydroxide</td>
-                    <td>{round(lye.naoh, 2)} {recipe.setup.outputUnits}</td>
+                    <td>{round(lye.naoh, 2)} {recipe.setup.displayUnits.output}</td>
                   </tr>
                   <tr>
                     <td>Potassium Hydroxide</td>
-                    <td>{round(lye.koh, 2)} {recipe.setup.outputUnits}</td>
+                    <td>{round(lye.koh, 2)} {recipe.setup.displayUnits.output}</td>
                   </tr>
                   <tr>
                     <td>Water</td>
-                    <td>{round(lye.water, 2)} {recipe.setup.outputUnits}</td>
+                    <td>{round(lye.water, 2)} {recipe.setup.displayUnits.output}</td>
                   </tr>
                 </tbody>
               </table>

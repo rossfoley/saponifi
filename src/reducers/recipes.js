@@ -1,9 +1,27 @@
 import uniqid from 'uniqid';
 import { merge, round, sumBy } from 'lodash';
 
-import { defaultSetup } from '../util/calculateLye';
-
 const initialState = {};
+
+export const defaultSetup = {
+  lyeRatio: {
+    naoh: 100,
+    koh: 0
+  },
+  lyePurity: {
+    naoh: 97,
+    koh: 90,
+  },
+  outputUnits: 'ounces', // 'ounces' or 'grams'
+  inputMode: 'weight', // 'weight' or 'percent'
+  displayUnits: {
+    input: 'oz',
+    output: 'oz'
+  },
+  superfatPercent: 0,
+  waterPercent: 33,
+  totalWeight: 100
+};
 
 const createRecipe = (name = 'Recipe Name') => {
   return {
@@ -81,16 +99,23 @@ const convertTo = {
   grams: (ounces) => ounces * 28.3495
 };
 
+const abbreviations = {
+  ounces: 'oz',
+  grams: 'g'
+}
+
 const displayUnits = (recipe) => {
   const { inputMode, outputUnits } = recipe.setup;
   if (inputMode === 'percent') {
-    return '%';
+    return {
+      input: '%', 
+      output: abbreviations[outputUnits]
+    };
   } else {
-    if (outputUnits === 'ounces') {
-      return 'oz';
-    } else {
-      return 'g';
-    }
+    return {
+      input: abbreviations[outputUnits],
+      output: abbreviations[outputUnits]
+    };
   }
 }
 
