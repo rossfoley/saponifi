@@ -19,6 +19,13 @@ class IngredientInput extends Component {
     this.setState({ name, amount }); 
   }
 
+  componentDidUpdate(prevProps) {
+    const { name, amount } = this.props.ingredient;
+    if (name !== prevProps.ingredient.name || amount !== prevProps.ingredient.amount) {
+      this.setState({ name, amount }); 
+    }
+  }
+
   onNameChange = (e) => {
     this.setState({name: e.target.value})
   }
@@ -33,68 +40,57 @@ class IngredientInput extends Component {
     this.props.onChange(index, name, amount);
   }
 
-  displayUnit = () => {
-    const { setup } = this.props;
-    if (setup.inputMode === 'percent') {
-      return '%';
-    } else {
-      if (setup.outputUnits === 'ounces') {
-        return 'oz';
-      } else {
-        return 'g';
-      }
-    }
-  }
-
   render() {
     const { index } = this.props;
+    const { displayUnits } = this.props.setup;
+    const { name, amount } = this.state;
+
     const nameInputId = `ingredientName${index}`
     const amountInputId = `ingredientAmount${index}`
-    const { name, amount } = this.state;
 
     return (
       <div className="form-inline ingredient-input-group">
-          <label htmlFor={nameInputId} className="col-sm-2 control-label">Ingredient</label>
-            <AutoComplete
-              items={oilProperties}
-              inputProps={{
-                id: nameInputId,
-                className: 'form-control',
-                placeholder: 'Ingredient Name',
-                onBlur: this.onChange 
-              }}
-              wrapperProps={{
-                className: 'autocomplete-menu-wrapper col-sm-4'
-              }}
-              shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
-              getItemValue={item => item.name}
-              renderItem={(item, highlighted) =>(
-                <div
-                  key={item.id}
-                  className={`list-group-item ${highlighted ? 'active' : ''}`}
-                >
-                  {item.name}
-                </div>
-              )}
-              value={name}
-              onChange={this.onNameChange}
-              onSelect={name => this.setState({ name })}
-            />
-          <label htmlFor={amountInputId} className="col-sm-2 control-label">Amount</label>
-          <div className="col-sm-4 input-group">
-            <input
-              type="number"
-              value={amount}
-              id={amountInputId}
-              className="form-control"
-              placeholder="Amount"
-              onChange={this.onAmountChange}
-              onBlur={this.onChange}
-            />
-            <div className="input-group-append">
-              <span className="input-group-text">{this.displayUnit()}</span>
+        <label htmlFor={nameInputId} className="col-sm-2 control-label">Ingredient</label>
+        <AutoComplete
+          items={oilProperties}
+          inputProps={{
+            id: nameInputId,
+            className: 'form-control',
+            placeholder: 'Ingredient Name',
+            onBlur: this.onChange 
+          }}
+          wrapperProps={{
+            className: 'autocomplete-menu-wrapper col-sm-4'
+          }}
+          shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
+          getItemValue={item => item.name}
+          renderItem={(item, highlighted) =>(
+            <div
+              key={item.id}
+              className={`list-group-item ${highlighted ? 'active' : ''}`}
+            >
+              {item.name}
             </div>
+          )}
+          value={name}
+          onChange={this.onNameChange}
+          onSelect={name => this.setState({ name })}
+        />
+        <label htmlFor={amountInputId} className="col-sm-2 control-label">Amount</label>
+        <div className="col-sm-4 input-group">
+          <input
+            type="number"
+            value={amount}
+            id={amountInputId}
+            className="form-control"
+            placeholder="Amount"
+            onChange={this.onAmountChange}
+            onBlur={this.onChange}
+          />
+          <div className="input-group-append">
+            <span className="input-group-text">{displayUnits}</span>
           </div>
+        </div>
       </div>
     );
   }

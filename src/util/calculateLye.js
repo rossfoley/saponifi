@@ -14,7 +14,8 @@ export const defaultSetup = {
   outputUnits: 'ounces', // 'ounces' or 'grams'
   inputMode: 'weight', // 'weight' or 'percent'
   superfatPercent: 0,
-  waterPercent: 33
+  waterPercent: 33,
+  totalWeight: 100
 };
 
 const calculateSingleLye = (ingredients, lyeType, setup) => {

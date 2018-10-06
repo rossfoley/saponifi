@@ -28,6 +28,10 @@ class Recipe extends Component {
     }
   }
 
+  onModeChange = (field) => (e) => {
+    this.props.updateRecipeMode(this.props.recipe.id, field, e.target.value);
+  }
+
   onRatioChange = (type) => (e) => {
     const value = e.target.value.trim();
     if (value !== '') {
@@ -97,6 +101,64 @@ class Recipe extends Component {
                   label="Water (% of oils)"
                   onChange={this.onInputChange('setup.waterPercent')}
                 />
+                <div className="form-group row">
+                  <div className="col-sm-3">Input Mode</div>
+                  <div className="col-sm-9">
+                    <div className="form-check form-check-inline">
+                      <label className="form-check-label" htmlFor="inputMode1">Weight</label>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="inputMode"
+                        id="inputMode1"
+                        value="weight"
+                        checked={recipe.setup.inputMode === 'weight'}
+                        onChange={this.onModeChange('inputMode')}
+                      />
+                    </div>
+                    <div className="form-check form-check-inline">
+                      <label className="form-check-label" htmlFor="inputMode2">Percent</label>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="inputMode"
+                        id="inputMode2"
+                        value="percent"
+                        checked={recipe.setup.inputMode === 'percent'}
+                        onChange={this.onModeChange('inputMode')}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-sm-3">Units</div>
+                  <div className="col-sm-9">
+                    <div className="form-check form-check-inline">
+                      <label className="form-check-label" htmlFor="outputUnits1">Ounces</label>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="outputUnits"
+                        id="outputUnits1"
+                        value="ounces"
+                        checked={recipe.setup.outputUnits === 'ounces'}
+                        onChange={this.onModeChange('outputUnits')}
+                      />
+                    </div>
+                    <div className="form-check form-check-inline">
+                      <label className="form-check-label" htmlFor="outputUnits2">Grams</label>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="outputUnits"
+                        id="outputUnits2"
+                        value="grams"
+                        checked={recipe.setup.inputMode === 'grams'}
+                        onChange={this.onModeChange('outputUnits')}
+                      />
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
