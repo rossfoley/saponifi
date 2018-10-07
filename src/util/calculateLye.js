@@ -3,7 +3,8 @@ import { find, sum } from 'lodash';
 import oilProperties from './oilProperties';
 
 const calculateSingleLye = (ingredients, lyeType, setup) => {
-  const lyeAmounts = ingredients.map((ingredient) => {
+  const normalIngredients = ingredients.filter(({superfat}) => !superfat);
+  const lyeAmounts = normalIngredients.map((ingredient) => {
     const info = find(oilProperties, ['name', ingredient.name]);
     if (info) {
       return ingredient.amount * info.sap[lyeType];

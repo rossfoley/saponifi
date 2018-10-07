@@ -10,19 +10,20 @@ class IngredientInput extends Component {
 
     this.state = {
       name: '',
-      amount: ''
+      amount: '',
+      superfat: false
     };
   }
 
   componentDidMount() {
-    const { name, amount } = this.props.ingredient;
+    const { name, amount, superfat } = this.props.ingredient;
     this.setState({ name, amount }); 
   }
 
   componentDidUpdate(prevProps) {
-    const { name, amount } = this.props.ingredient;
-    if (name !== prevProps.ingredient.name || amount !== prevProps.ingredient.amount) {
-      this.setState({ name, amount }); 
+    const { name, amount, superfat } = this.props.ingredient;
+    if (name !== prevProps.ingredient.name || amount !== prevProps.ingredient.amount || superfat !== prevProps.ingredient.superfat) {
+      this.setState({ name, amount, superfat }); 
     }
   }
 
@@ -36,21 +37,31 @@ class IngredientInput extends Component {
 
   onChange = (e) => {
     const { index } = this.props;
-    const { name, amount } = this.state;
-    this.props.onChange(index, name, amount);
+    const { name, amount, superfat } = this.state;
+    this.props.onChange(index, name, amount, superfat);
+  }
+
+  removeIngredient = (e) => {
+    this.props.onRemove(this.props.index);
+  };
+
+  toggleSuperfat = (e) => {
+    const { index } = this.props;
+    const { name, amount, superfat } = this.state;
+    this.props.onChange(index, name, amount, !superfat);
   }
 
   render() {
     const { index } = this.props;
     const { displayUnits } = this.props.setup;
-    const { name, amount } = this.state;
+    const { name, amount, superfat } = this.state;
 
     const nameInputId = `ingredientName${index}`
     const amountInputId = `ingredientAmount${index}`
 
     return (
       <div className="form-inline ingredient-input-group">
-        <label htmlFor={nameInputId} className="col-sm-2 control-label">Ingredient</label>
+        <label htmlFor={nameInputId} className="col control-label">Ingredient</label>
         <AutoComplete
           items={oilProperties}
           inputProps={{
@@ -60,7 +71,7 @@ class IngredientInput extends Component {
             onBlur: this.onChange 
           }}
           wrapperProps={{
-            className: 'autocomplete-menu-wrapper col-sm-4'
+            className: 'autocomplete-menu-wrapper col-4'
           }}
           shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
           getItemValue={item => item.name}
@@ -76,8 +87,8 @@ class IngredientInput extends Component {
           onChange={this.onNameChange}
           onSelect={name => this.setState({ name })}
         />
-        <label htmlFor={amountInputId} className="col-sm-2 control-label">Amount</label>
-        <div className="col-sm-4 input-group">
+        <label htmlFor={amountInputId} className="col control-label">Amount</label>
+        <div className="col-3 input-group">
           <input
             type="number"
             value={amount}
@@ -90,6 +101,17 @@ class IngredientInput extends Component {
           <div className="input-group-append">
             <span className="input-group-text">{displayUnits.input}</span>
           </div>
+        </div>
+        <div className="col d-flex justify-content-around align-items-center">
+          <button
+            type="button"
+            className={`superfat btn ${superfat ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={this.toggleSuperfat}>
+            SF
+          </button>
+          <button type="button" className="close" aria-label="Close" onClick={this.removeIngredient}>
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
     );

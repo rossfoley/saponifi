@@ -1,5 +1,5 @@
 import uniqid from 'uniqid';
-import { merge, round, sumBy } from 'lodash';
+import { merge, pullAt, round, sumBy } from 'lodash';
 
 const initialState = {};
 
@@ -85,13 +85,22 @@ const updateIngredient = (id, index, updatedIngredient) => {
   };
 }
 
+const removeIngredient = (id, index) => {
+  return {
+    type: 'recipes.removeIngredient',
+    id,
+    index
+  };
+}
+
 export const actions = {
   createRecipe,
   updateRecipe,
   updateRecipeLye,
   updateRecipeMode,
   addIngredient,
-  updateIngredient
+  updateIngredient,
+  removeIngredient
 };
 
 const convertTo = {
@@ -184,7 +193,7 @@ export const recipesReducer = (state = initialState, action) => {
       };
 
     case 'recipes.addIngredient':
-      recipe.ingredients.push({name: '', amount: 0.0});
+      recipe.ingredients.push({name: '', amount: 0.0, superfat: false});
 
       return {
         ...state,
@@ -193,6 +202,14 @@ export const recipesReducer = (state = initialState, action) => {
 
     case 'recipes.updateIngredient':
       recipe.ingredients[action.index] = action.updatedIngredient;
+
+      return {
+        ...state,
+        [action.id]: recipe
+      };
+
+    case 'recipes.removeIngredient':
+      pullAt(recipe.ingredients, action.index);
 
       return {
         ...state,

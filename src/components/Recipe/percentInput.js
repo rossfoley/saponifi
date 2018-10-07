@@ -25,7 +25,7 @@ class PercentInput extends Component {
   }
 
   render() {
-    const { inputId, label, onChange } = this.props;
+    const { inputId, label, disabled, onChange } = this.props;
     const { value } = this.state;
 
     return (
@@ -39,6 +39,7 @@ class PercentInput extends Component {
             value={value}
             id={inputId}
             className="form-control"
+            disabled={disabled}
             onChange={this.onInputChange}
             onBlur={onChange}
           />
@@ -54,6 +55,7 @@ class PercentInput extends Component {
 PercentInput.propTypes = {
   inputId: PropTypes.string,
   label: PropTypes.string,
+  disabled: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func
 };

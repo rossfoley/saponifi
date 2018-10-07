@@ -14,11 +14,15 @@ class Recipe extends Component {
     this.props.addIngredient(this.props.recipe.id);
   }
 
-  onIngredientChange = (index, name, amount) => {
+  onIngredientChange = (index, name, amount, superfat) => {
     if (name.trim() !== '') {
-      const updatedIngredient = { name: name.trim(), amount: parseFloat(amount) };
+      const updatedIngredient = { name: name.trim(), amount: parseFloat(amount), superfat };
       this.props.updateIngredient(this.props.recipe.id, index, updatedIngredient);
     }
+  }
+
+  onIngredientRemove = (index) => {
+    this.props.removeIngredient(this.props.recipe.id, index);
   }
 
   onInputChange = (field) => (e) => {
@@ -46,6 +50,9 @@ class Recipe extends Component {
     const totalWeight = recipe.setup.inputMode === 'weight' ?
       sumBy(recipe.ingredients, 'amount') :
       recipe.setup.totalWeight;
+    const superfatIngredients = recipe.ingredients.filter(({superfat}) => superfat);
+    const superfatDisabled = superfatIngredients.length > 0;
+    const calculatedSuperfat = round(sumBy(superfatIngredients, 'amount') / totalWeight * 100, 2);
 
     return (
       <div className="row mt-3">
@@ -57,6 +64,7 @@ class Recipe extends Component {
                 <IngredientInput
                   ingredient={ingredient}
                   onChange={this.onIngredientChange}
+                  onRemove={this.onIngredientRemove}
                   key={ingredient.name}
                   setup={recipe.setup}
                   index={index}
@@ -70,7 +78,8 @@ class Recipe extends Component {
             <div className="card-body">
               <PercentInput
                 inputId="superfatPercent"
-                value={recipe.setup.superfatPercent}
+                value={superfatDisabled ? calculatedSuperfat : recipe.setup.superfatPercent}
+                disabled={superfatDisabled}
                 label="Superfat (% of oils)"
                 onChange={this.onInputChange('setup.superfatPercent')}
               />
