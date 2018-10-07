@@ -61,7 +61,6 @@ class IngredientInput extends Component {
 
     return (
       <div className="form-inline ingredient-input-group">
-        <label htmlFor={nameInputId} className="col control-label">Ingredient</label>
         <AutoComplete
           items={oilProperties}
           inputProps={{
@@ -87,7 +86,6 @@ class IngredientInput extends Component {
           onChange={this.onNameChange}
           onSelect={name => this.setState({ name })}
         />
-        <label htmlFor={amountInputId} className="col control-label">Amount</label>
         <div className="col-3 input-group">
           <input
             type="number"
@@ -107,7 +105,7 @@ class IngredientInput extends Component {
             type="button"
             className={`superfat btn ${superfat ? 'btn-primary' : 'btn-secondary'}`}
             onClick={this.toggleSuperfat}>
-            SF
+            Superfat {superfat ? '✓' : ''}
           </button>
           <button type="button" className="close" aria-label="Close" onClick={this.removeIngredient}>
             <span aria-hidden="true">&times;</span>
